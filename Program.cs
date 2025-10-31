@@ -41,17 +41,17 @@ app.UseAuthorization();
 app.MapControllers();
 
 // Migraciones automáticas en producción
-using (var scope = app.Services.CreateScope())
-{
-    var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    try
-    {
-        context.Database.Migrate();
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine($"Error applying migrations: {ex.Message}");
-    }
-}
+///using (var scope = app.Services.CreateScope())
+//{
+ //   var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+  //  try
+    //{
+      //  context.Database.Migrate();
+   /// }
+   // catch (Exception ex)
+   // {
+     //   Console.WriteLine($"Error applying migrations: {ex.Message}");
+   // }
+//}
 
 app.Run();
