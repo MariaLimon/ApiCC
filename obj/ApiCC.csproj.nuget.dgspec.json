@@ -59,6 +59,10 @@
               "target": "Package",
               "version": "[9.0.10, )"
             },
+            "Microsoft.Extensions.Diagnostics.HealthChecks": {
+              "target": "Package",
+              "version": "[9.0.10, )"
+            },
             "Npgsql.EntityFrameworkCore.PostgreSql": {
               "target": "Package",
               "version": "[9.0.4, )"

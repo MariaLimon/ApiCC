@@ -1,0 +1,18 @@
+# .dockerignore
+bin/
+obj/
+out/
+publish/
+.DS_Store
+.vs/
+.vscode/
+*.user
+*.suo
+*.cache
+*.log
+.git/
+.gitignore
+README.md
+Dockerfile
+docker-compose.yml
+.dockerignore

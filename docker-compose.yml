@@ -1,0 +1,47 @@
+services:
+  # Base de datos PostgreSQL
+  db:
+    image: postgres:15
+    container_name: ciudadconectada-db
+    environment:
+      POSTGRES_DB: ciudadconectadadb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mipassword123
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d ciudadconectadadb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - api-network
+
+  # Tu API ASP.NET Core
+  api:
+    container_name: api-cc-simple
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__DefaultConnection=Host=db;Database=ciudadconectadadb;Username=postgres;Password=mipassword123;Port=5432
+    ports:
+      - "7000:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - api-network
+
+volumes:
+  postgres_data:
+
+networks:
+  api-network:
+    driver: bridge

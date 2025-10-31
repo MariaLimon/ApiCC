@@ -1,3 +1,4 @@
+// Data/ApplicationDbContext.cs
 using Microsoft.EntityFrameworkCore;
 using ApiCC.Models;
 
@@ -15,8 +16,7 @@ namespace ApiCC.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            // Configuración específica para PostgreSQL
+            
             modelBuilder.Entity<User>(entity =>
             {
                 entity.HasKey(e => e.Id);
@@ -33,36 +33,32 @@ namespace ApiCC.Data
                     .IsRequired()
                     .HasMaxLength(255);
 
-                // Índice único para email
-                entity.HasIndex(e => e.Email).IsUnique();
+                entity.Property(e => e.IsAdmin)
+                    .HasDefaultValue(false);
 
                 entity.Property(e => e.IsEmailConfirmed)
-                    .IsRequired()
                     .HasDefaultValue(false);
 
-                entity.Property(e => e.IsAdmin)
-                    .IsRequired()
-                    .HasDefaultValue(false);
+                entity.HasIndex(e => e.Email).IsUnique();
 
-                // Datos iniciales
                 entity.HasData(
                     new User
                     {
                         Id = 1,
                         Name = "Juan",
                         LastName = "Pérez",
-                        Email = "juan.perez@ejemplo.com",
-                        IsEmailConfirmed = false,
-                        IsAdmin = false
+                        Email = "juan.perez@example.com",
+                        IsAdmin = false,
+                        IsEmailConfirmed = true
                     },
                     new User
                     {
                         Id = 2,
                         Name = "María",
                         LastName = "Gómez",
-                        Email = "maria.gomez@ejemplo.com",
-                        IsEmailConfirmed = false,
-                        IsAdmin = false
+                        Email = "maria.gomez@example.com",
+                        IsAdmin = true,
+                        IsEmailConfirmed = true
                     }
                 );
             });
